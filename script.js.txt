@@ -1,0 +1,116 @@
+```javascript
+// Select elements
+const cells = document.querySelectorAll(".cell");
+const statusText = document.querySelector("#status");
+const restartBtn = document.querySelector("#restart");
+const modeBtns = document.querySelectorAll(".mode-btn");
+
+let options = ["", "", "", "", "", "", "", "", ""];
+let currentPlayer = "X";
+let running = false;
+let singlePlayer = false;
+
+// Winning combinations (rows, cols, diagonals)
+const winConditions = [
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+  [0,3,6],
+  [1,4,7],
+  [2,5,8],
+  [0,4,8],
+  [2,4,6]
+];
+
+// Start Game
+function startGame() {
+  cells.forEach(cell => cell.addEventListener("click", cellClicked));
+  restartBtn.addEventListener("click", restartGame);
+  modeBtns.forEach(btn => btn.addEventListener("click", selectMode));
+  statusText.textContent = "Select a mode to start!";
+}
+
+// Select Mode
+function selectMode(e) {
+  const mode = e.target.dataset.mode;
+  singlePlayer = (mode === "single");
+  restartGame();
+  running = true;
+  statusText.textContent = `Player ${currentPlayer}'s turn`;
+}
+
+// Handle Cell Click
+function cellClicked() {
+  const cellIndex = this.getAttribute("cellIndex");
+
+  if (options[cellIndex] !== "" || !running) return;
+
+  updateCell(this, cellIndex);
+  checkWinner();
+
+  if (singlePlayer && running && currentPlayer === "O") {
+    setTimeout(computerMove, 500);
+  }
+}
+
+// Update Cell
+function updateCell(cell, index) {
+  options[index] = currentPlayer;
+  cell.textContent = currentPlayer;
+}
+
+// Switch Player
+function changePlayer() {
+  currentPlayer = (currentPlayer === "X") ? "O" : "X";
+  statusText.textContent = `Player ${currentPlayer}'s turn`;
+}
+
+// Check Winner
+function checkWinner() {
+  let roundWon = false;
+
+  for (let condition of winConditions) {
+    const [a, b, c] = condition;
+    if (options[a] && options[a] === options[b] && options[a] === options[c]) {
+      roundWon = true;
+      break;
+    }
+  }
+
+  if (roundWon) {
+    statusText.textContent = `${currentPlayer} Wins! 🎉`;
+    running = false;
+  } else if (!options.includes("")) {
+    statusText.textContent = `It's a Draw! 😮`;
+    running = false;
+  } else {
+    changePlayer();
+  }
+}
+
+// Computer Move (Random)
+function computerMove() {
+  let emptyCells = [];
+  options.forEach((val, i) => {
+    if (val === "") emptyCells.push(i);
+  });
+
+  if (emptyCells.length === 0) return;
+
+  const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  const cell = document.querySelector(`.cell[cellIndex='${randomIndex}']`);
+  updateCell(cell, randomIndex);
+  checkWinner();
+}
+
+// Restart Game
+function restartGame() {
+  options = ["", "", "", "", "", "", "", "", ""];
+  currentPlayer = "X";
+  statusText.textContent = "Game Restarted!";
+  cells.forEach(cell => cell.textContent = "");
+  running = true;
+}
+
+startGame();
+```

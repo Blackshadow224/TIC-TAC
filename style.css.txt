@@ -1,35 +1,97 @@
-.game {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  margin: 20px auto;
-  width: 300px;  /* overall board width */
-}
-.box {
-  width: 100px;
-  height: 100px;
-  background-color: #f0f0f0;
-  font-size: 2em;
-  border: 2px solid #555;
+```css
+/* General page styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  transition: background 0.2s;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  text-align: center;
 }
-.box:hover {
-  background-color: #e0e0e0;  /* hover effect */
+
+/* Heading */
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
 }
-#reset-btn, .controls button {
-  padding: 10px 20px;
-  margin: 10px 5px;
-  font-size: 1em;
+
+/* Mode selection buttons */
+#mode-select {
+  margin-bottom: 20px;
+}
+
+.mode-btn {
+  background: #fff;
+  color: #333;
   border: none;
-  background-color: #333;
-  color: white;
-  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
 }
-#reset-btn:hover, .controls button:hover {
-  background-color: #555;
+
+.mode-btn:hover {
+  background: #f1f1f1;
+  transform: scale(1.05);
 }
+
+/* Game board */
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.cell {
+  background: #fff;
+  color: #333;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cell:hover {
+  background: #eee;
+  transform: scale(1.05);
+}
+
+/* Status message */
+#status {
+  font-size: 1.2rem;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+/* Restart button */
+#restart {
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#restart:hover {
+  background: #ff4b4b;
+  transform: scale(1.05);
+}
+```
+
